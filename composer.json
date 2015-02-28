@@ -1,5 +1,5 @@
 {
-    "name": "brettp/login_as",
+    "name": "elgg/login_as",
     "type": "elgg-plugin",
     "description": "Elgg plugin that allows admin users to login as another user.",
     "license": "GPL-2.0",
