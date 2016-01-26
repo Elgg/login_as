@@ -29,12 +29,21 @@ function login_as_init() {
  * @param array  $params
  */
 function login_as_user_hover_menu($hook, $type, $menu, $params) {
-	$user = $params['entity'];
+
+	$user = elgg_extract('entity', $params);
 	$logged_in_user = elgg_get_logged_in_user_entity();
+
+	if (!$user instanceof ElggUser) {
+		return;
+	}
+
+	if (!$logged_in_user || !$logged_in_user->isAdmin()) {
+		return;
+	}
 
 	// Don't show menu on self.
 	if ($logged_in_user == $user) {
-		return $menu;
+		return;
 	}
 
 	$url = "action/login_as?user_guid=$user->guid";
