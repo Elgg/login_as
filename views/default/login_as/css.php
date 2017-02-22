@@ -8,3 +8,7 @@
 .login-as-arrow:hover {
 	color: white;
 }
+
+.login-as-topbar .elgg-anchor-label {
+    display: block;
+}

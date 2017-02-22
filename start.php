@@ -7,12 +7,14 @@ elgg_register_event_handler('init', 'system', 'login_as_init');
 
 /**
  * Init
+ * @return void
  */
 function login_as_init() {
 
-	// user hover menu and topbar links.
+	// user hover menu and topbar links
 	elgg_register_plugin_hook_handler('register', 'menu:user_hover', 'login_as_user_hover_menu');
-	elgg_register_event_handler('pagesetup', 'system', 'login_as_add_topbar_link');
+	elgg_register_plugin_hook_handler('register', 'menu:topbar', \Elgg\LoginAs\TopbarMenuHandler::class);
+	
 	elgg_extend_view('css/elgg', 'login_as/css');
 
 	$action_path = dirname(__FILE__) . '/actions/';
@@ -23,10 +25,11 @@ function login_as_init() {
 /**
  * Add Login As to user hover menu for admins
  *
- * @param string $hook
- * @param string $type
- * @param array  $menu
- * @param array  $params
+ * @param string         $hook   "register"
+ * @param string         $type   "menu:user_hover"
+ * @param ElggMenuItem[] $menu   Menu
+ * @param array          $params Hook params
+ * @return ElggMenuItem[]
  */
 function login_as_user_hover_menu($hook, $type, $menu, $params) {
 
@@ -56,34 +59,4 @@ function login_as_user_hover_menu($hook, $type, $menu, $params) {
 	));
 
 	return $menu;
-}
-
-/**
- * Add a menu item to the topbar menu for logging out of an account
- */
-function login_as_add_topbar_link() {
-	$session = elgg_get_session();
-
-	$original_user_guid = $session->get('login_as_original_user_guid');
-
-	// short circuit view if not logged in as someone else.
-	if (!$original_user_guid) {
-		return;
-	}
-
-	$title = elgg_echo('login_as:return_to_user', array(
-		elgg_get_logged_in_user_entity()->username,
-		get_entity($original_user_guid)->username
-	));
-
-	$html = elgg_view('login_as/topbar_return', array('user_guid' => $original_user_guid));
-	elgg_register_menu_item('topbar', array(
-		'name' => 'login_as_return',
-		'text' => $html,
-		'href' => 'action/logout_as',
-		'is_action' => true,
-		'title' => $title,
-		'link_class' => 'login-as-topbar',
-		'priority' => 700,
-	));
 }
