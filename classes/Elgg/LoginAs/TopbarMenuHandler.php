@@ -35,13 +35,13 @@ class TopbarMenuHandler {
 
 		$menu = $hook->getValue();
 		$menu[] = ElggMenuItem::factory([
-					'name' => 'login_as_return',
-					'text' => $html,
-					'href' => 'action/logout_as',
-					'is_action' => true,
-					'title' => $title,
-					'link_class' => 'login-as-topbar',
-					'priority' => 700,
+			'name' => 'login_as_return',
+			'text' => $html,
+			'href' => 'action/logout_as',
+			'is_action' => true,
+			'title' => $title,
+			'link_class' => 'login-as-topbar',
+			'priority' => 700,
 		]);
 
 		return $menu;

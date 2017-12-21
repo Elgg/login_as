@@ -33,15 +33,16 @@ class UserHoverMenuHandler {
 		}
 
 		$menu = $hook->getValue();
-		$menu[] = ElggMenuItem::factory(array(
-					'name' => 'login_as',
-					'text' => elgg_echo('login_as:login_as'),
-					'href' => elgg_http_add_url_query_elements('action/login_as', [
-						'user_guid' => $user->guid,
-					]),
-					'is_action' => true,
-					'section' => 'admin'
-		));
+		$menu[] = ElggMenuItem::factory([
+			'name' => 'login_as',
+			'icon' => 'sign-in',
+			'text' => elgg_echo('login_as:login_as'),
+			'href' => elgg_http_add_url_query_elements('action/login_as', [
+				'user_guid' => $user->guid,
+			]),
+			'is_action' => true,
+			'section' => 'admin',
+		]);
 
 		return $menu;
 	}

@@ -14,7 +14,4 @@ function login_as_init() {
 	// user hover menu and topbar links
 	elgg_register_plugin_hook_handler('register', 'menu:user_hover', \Elgg\LoginAs\UserHoverMenuHandler::class);
 	elgg_register_plugin_hook_handler('register', 'menu:topbar', \Elgg\LoginAs\TopbarMenuHandler::class);
-	
-	elgg_extend_view('elgg.css', 'login_as/login_as.css');
 }
-
