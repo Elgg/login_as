@@ -7,4 +7,14 @@ return [
 		],
 		'logout_as' => [],
 	],
+	'hooks' => [
+		'register' => [
+			'menu:topbar' => [
+				\Elgg\LoginAs\TopbarMenuHandler::class => [],
+			],
+			'menu:user_hover' => [
+				\Elgg\LoginAs\UserHoverMenuHandler::class => [],
+			],
+		],
+	],
 ];
