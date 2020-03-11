@@ -26,7 +26,7 @@ class TopbarMenuHandler {
 
 		$title = elgg_echo('login_as:return_to_user', [
 			elgg_get_logged_in_user_entity()->username,
-			get_entity($original_user_guid)->username
+			get_user($original_user_guid)->username
 		]);
 
 		$html = elgg_view('login_as/topbar_return', [
@@ -37,8 +37,7 @@ class TopbarMenuHandler {
 		$menu[] = ElggMenuItem::factory([
 			'name' => 'login_as_return',
 			'text' => $html,
-			'href' => 'action/logout_as',
-			'is_action' => true,
+			'href' => elgg_generate_action_url('logout_as'),
 			'title' => $title,
 			'link_class' => 'login-as-topbar',
 			'priority' => 700,

@@ -6,11 +6,10 @@
 $session = elgg_get_session();
 
 $user_guid = $session->get('login_as_original_user_guid');
+$persistent = (bool) $session->get('login_as_original_persistent');
+
 $user = get_user($user_guid);
-
-$persistent = $session->get('login_as_original_persistent');
-
-if (empty($user) || !$user->isAdmin()) {
+if (!$user instanceof ElggUser || !$user->isAdmin()) {
 	return elgg_error_response(elgg_echo('login_as:unknown_user'));
 }
 
