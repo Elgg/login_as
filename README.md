@@ -1,5 +1,7 @@
 # Login As
 
+![Elgg 4.0](https://img.shields.io/badge/Elgg-4.0-green.svg)
+
 Allows admin users to login as other users in the system.
 
 This plugin is not meant to help you spy on your users.
@@ -16,3 +18,6 @@ it's easier to see exactly what the user is seeing when troubleshooting.
 Once logged in as a user, everything you do will show up like you are that user.
 
 Be careful.
+
+(c) Brett Profitt 2010-2017  
+(c) Elgg Foundation 2016-2021

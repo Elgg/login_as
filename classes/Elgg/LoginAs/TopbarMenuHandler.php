@@ -2,18 +2,16 @@
 
 namespace Elgg\LoginAs;
 
-use Elgg\Hook;
-use ElggMenuItem;
-
 class TopbarMenuHandler {
 
 	/**
 	 * Add a menu item to the topbar menu for logging out of an account
 	 *
-	 * @param $hook \Elgg\Hook Hook
-	 * @return ElggMenuItem[]
+	 * @param \Elgg\Hook Hook 'register', 'menu:topbar'
+	 *
+	 * @return \Elgg\Menu\MenuItems|void
 	 */
-	public function __invoke(Hook $hook) {
+	public function __invoke(\Elgg\Hook $hook) {
 
 		$session = elgg_get_session();
 
@@ -23,28 +21,35 @@ class TopbarMenuHandler {
 		if (!$original_user_guid) {
 			return;
 		}
+		
+		$original_user = get_user($original_user_guid);
+		if (!$original_user instanceof \ElggUser) {
+			return;
+		}
 
 		$title = elgg_echo('login_as:return_to_user', [
-			elgg_get_logged_in_user_entity()->username,
-			get_entity($original_user_guid)->username
+			$original_user->getDisplayName(),
 		]);
-
-		$html = elgg_view('login_as/topbar_return', [
-			'user_guid' => $original_user_guid,
+		
+		$icon = elgg_view('output/img', [
+			'src' => $original_user->getIconURL(['size' => 'tiny']),
+			'alt' => 'original user photo',
 		]);
+		$icon = elgg_format_element('span' , ['class' => ['elgg-avatar', 'elgg-avatar-tiny', 'elgg-anchor-icon']], $icon);
 
 		$menu = $hook->getValue();
-		$menu[] = ElggMenuItem::factory([
+		
+		$menu[] = \ElggMenuItem::factory([
 			'name' => 'login_as_return',
-			'text' => $html,
-			'href' => 'action/logout_as',
-			'is_action' => true,
-			'title' => $title,
+			'icon' => $icon,
+			'text' => $title,
+			'href' => elgg_generate_action_url('login_as/logout'),
 			'link_class' => 'login-as-topbar',
-			'priority' => 700,
+			'priority' => -100,
+			'section' => 'alt',
+			'parent_name' => 'account',
 		]);
 
 		return $menu;
 	}
-
 }
