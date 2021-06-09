@@ -2,54 +2,47 @@
 
 namespace Elgg\LoginAs;
 
-use Elgg\Hook;
-use ElggMenuItem;
-use ElggUser;
-
 class UserHoverMenuHandler {
 
 	/**
 	 * Add Login As to user hover menu for admins
 	 *
-	 * @param $hook \Elgg\Hook $hook Hook
-	 * @return ElggMenuItem[]
+	 * @param \Elgg\Hook $hook 'register', 'menu:user_hover'
+	 *
+	 * @return \Elgg\Menu\MenuItems|void
 	 */
-	public function __invoke(Hook $hook) {
+	public function __invoke(\Elgg\Hook $hook) {
 
 		$user = $hook->getEntityParam();
 		$logged_in_user = elgg_get_logged_in_user_entity();
 
-		if (!$user instanceof ElggUser) {
-			return;
-		}
-
-		if ($user->isBanned()) {
-			// banned users are unable to login
+		if (!$user instanceof \ElggUser || $user->isBanned()) {
+			// no user or banned user is unable to login
 			return;
 		}
 
 		if (!$logged_in_user || !$logged_in_user->isAdmin()) {
+			// no admin user logged in
 			return;
 		}
 
 		// Don't show menu on self.
-		if ($logged_in_user == $user) {
+		if ($logged_in_user->guid === $user->guid) {
 			return;
 		}
 
 		$menu = $hook->getValue();
-		$menu[] = ElggMenuItem::factory([
+		
+		$menu[] = \ElggMenuItem::factory([
 			'name' => 'login_as',
-			'icon' => 'sign-in',
+			'icon' => 'sign-in-alt',
 			'text' => elgg_echo('login_as:login_as'),
-			'href' => elgg_http_add_url_query_elements('action/login_as', [
+			'href' => elgg_generate_action_url('login_as/login', [
 				'user_guid' => $user->guid,
 			]),
-			'is_action' => true,
 			'section' => 'admin',
 		]);
 
 		return $menu;
 	}
-
 }

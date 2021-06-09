@@ -5,15 +5,17 @@
  * Sets a flag in the session to let us know who the originally logged in user is.
  */
 
-$user_guid = get_input('user_guid', 0);
-$original_user = elgg_get_logged_in_user_entity();
-$original_user_guid = $original_user->guid;
+use Elgg\Exceptions\LoginException;
+
+$user_guid = (int) get_input('user_guid');
 
 $user = get_user($user_guid);
-
 if (empty($user)) {
 	return elgg_error_response(elgg_echo('login_as:unknown_user'));
 }
+
+$original_user = elgg_get_logged_in_user_entity();
+$original_user_guid = $original_user->guid;
 
 // store the original persistent login state to restore on logout_as.
 $persistent = false;
@@ -31,16 +33,17 @@ $session->set('login_as_original_persistent', $persistent);
 
 try {
 	login($user);
-	return elgg_ok_response('', elgg_echo('login_as:logged_in_as_user', [$user->username]));
-} catch (Exception $exc) {
+
+	return elgg_ok_response('', elgg_echo('login_as:logged_in_as_user', [$user->getDisplayName()]));
+} catch (LoginException $exc) {
 	$session->remove('login_as_original_user_guid');
 	$session->remove('login_as_original_persistent');
 
 	try {
 		login($original_user);
-	} catch (Exception $ex) {
+	} catch (LoginException $ex) {
 		// we can't log back in as ourselves?  just leave us logged out then...
 	}
 	
-	return elgg_error_response(elgg_echo('login_as:could_not_login_as_user', [$user->username]));
+	return elgg_error_response(elgg_echo('login_as:could_not_login_as_user', [$user->getDisplayName()]));
 }
