@@ -1,3 +1,6 @@
+### Login As 3.0 - June 10, 2021 ###
+* Updated for Elgg 4.0
+
 ### Login As 2.1.0 - March 11, 2020 ###
 * feat(i18n): added Dutch translation
 * fix(action): remove empty register_error() call
