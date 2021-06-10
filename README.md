@@ -1,6 +1,8 @@
 # Login As
 
 ![Elgg 4.0](https://img.shields.io/badge/Elgg-4.0-green.svg)
+[![Latest Stable Version](https://poser.pugx.org/elgg/login_as/v/stable.svg)](https://packagist.org/packages/elgg/login_as)
+[![License](https://poser.pugx.org/elgg/login_as/license.svg)](https://packagist.org/packages/elgg/login_as)
 
 Allows admin users to login as other users in the system.
 
