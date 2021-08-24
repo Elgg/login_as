@@ -7,7 +7,7 @@ class UserHoverMenuHandler {
 	/**
 	 * Add Login As to user hover menu for admins
 	 *
-	 * @param \Elgg\Hook $hook 'register', 'menu:user_hover'
+	 * @param \Elgg\Hook $hook 'register', 'menu:[user_hover|entity]'
 	 *
 	 * @return \Elgg\Menu\MenuItems|void
 	 */
@@ -40,7 +40,7 @@ class UserHoverMenuHandler {
 			'href' => elgg_generate_action_url('login_as/login', [
 				'user_guid' => $user->guid,
 			]),
-			'section' => 'admin',
+			'section' => $hook->getType() === 'menu:user_hover' ? 'admin' : 'default',
 		]);
 
 		return $menu;
