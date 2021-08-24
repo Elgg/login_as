@@ -12,6 +12,9 @@ return [
 	],
 	'hooks' => [
 		'register' => [
+			'menu:entity' => [
+				\Elgg\LoginAs\UserHoverMenuHandler::class => [],
+			],
 			'menu:topbar' => [
 				\Elgg\LoginAs\TopbarMenuHandler::class => [],
 			],
