@@ -1,3 +1,6 @@
+### Login As 3.1 - August 25, 2021 ###
+* feat(menus): added login as to user entity menu
+
 ### Login As 3.0 - June 10, 2021 ###
 * Updated for Elgg 4.0
 
